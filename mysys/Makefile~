@@ -1,0 +1,40 @@
+#--------------------------------------------------------------#
+TOP=.
+OUTPUT?=../output
+include $(OUTPUT)/rules.mk
+#--------------------------------------------------------------#
+
+CONFIG_H_FILE:=include/libmysys_config.h
+
+LIBNAME:=libtdCore
+LIBLDFLAGS := -Wl,--version-script -Wl,symbol_export -lpthread -lrt
+LIBVERSION:=1.0
+LIBVERSION_SUB:=5
+
+LIBSRCS := task/task.c
+LIBSRCS += task/file.c
+LIBSRCS += struct/array.c
+LIBSRCS += struct/queue.c
+LIBSRCS += struct/hash.c
+LIBSRCS += struct/avl_tree.c
+LIBSRCS += struct/string_pool.c
+LIBSRCS += struct/table.c
+LIBSRCS += object/object.c
+LIBSRCS += object/message.c
+LIBSRCS += parse/cfg_parse.c
+LIBSRCS += parse/cfg_builtin.c
+LIBSRCS += parse/cfg_examine.c
+LIBSRCS += parse/cfg_tree.c
+LIBSRCS += ini/cfg_config.c
+LIBSRCS += ini/ini.c
+
+all: $(LIBNAME)
+
+clean: rules_clean
+
+install: all rules_install
+
+#--------------------------------------------------------------#
+include $(OUTPUT)/rules.mk
+#--------------------------------------------------------------#
+
