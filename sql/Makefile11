@@ -1,0 +1,21 @@
+top_srcdir := ..
+# These are listed in 'nodist_mysqld_SOURCES'
+link_sources:
+	rm -f mini_client_errors.c
+	ln -s $(top_srcdir)/libmysql/errmsg.c mini_client_errors.c
+	rm -f pack.c
+	ln -s $(top_srcdir)/sql-common/pack.c pack.c
+	rm -f client.c
+	ln -s $(top_srcdir)/sql-common/client.c client.c
+	rm -f my_time.c
+	ln -s $(top_srcdir)/sql-common/my_time.c my_time.c
+	rm -f my_user.c
+	ln -s $(top_srcdir)/sql-common/my_user.c my_user.c
+	echo timestamp > link_sources
+
+clean:
+	rm -f mini_client_errors.c
+	rm -f pack.c
+	rm -f client.c
+	rm -f my_time.c
+	rm -f my_user.c

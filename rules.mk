@@ -94,11 +94,13 @@ LIBOBJS := $(patsubst %.cpp, %.loo, $(LIBOBJS))
 EXEDEPS := $(patsubst %.cpp, %.dd, $(EXEDEPS))
 LIBDEPS := $(patsubst %.cpp, %.dd, $(LIBDEPS))
 
+
+
 #GCOVFILES:=$(patsubst %.c, %.gc*, $(EXESRCS)) $(patsubst %.c, %.gc*, $(LIBSRCS)) $(patsubst %.c, %.c.gcov, $(EXESRCS)) $(patsubst %.c, %.c.gcov, $(LIBSRCS)) 
 
 ################################################
 
-CFLAGS := -DLINUX=1 -DUNIX=1 -Dlinux -Dunix -Wall -D_GNU_SOURCE -D_REENTRANT
+CFLAGS := -g -O2 -DUNIV_LINUX -DUNIV_LINUX
 LDFLAGS := 
 
 ifeq ($(DEBUG),Y)
@@ -164,6 +166,17 @@ $(EXENAME): $(CONFIG_H_FILE) $(EXEDEPS) $(EXEOBJS)
 	mv $(EXENAME) $(TOP)/bin/
 	@echo "========= Link execute $@ end ========"
 endif
+
+echo "111111111111111111111111111"
+
+ifneq ($(EXENAMEP),)
+$(shell mkdir -p $(TOP)/bin)
+$(EXENAMEP): $(CONFIG_H_FILE) $(EXEDEPS) $(EXEOBJS)
+	$(CCP) $(CPPFLAGS) -Wl -o $(EXENAMEP) $(EXEOBJS) $(LDFLAGS) $(EXELDFLAGS) $(EXTRALDFLAGS)
+	mv $(EXENAMEP) $(TOP)/bin/
+	@echo "========= Link execute $@ end ========"
+endif
+
 ##################################################
 
 .PHONY: rules_clean rules_install
@@ -187,6 +200,8 @@ endif
 
 %.loo: %.cpp
 	$(CCP) $(CPPFLAGS) $(CFLAGS) $(LIBCFLAGS) $(EXTRACFLAGS) -c -o $@ $<
+
+
 
 rules_clean:
 	-rm -f $(CONFIG_H_FILE) $(EXENAME) $(REALLIBNAME) $(EXEOBJS) $(LIBOBJS) $(EXEDEPS) $(LIBDEPS) $(GCOVFILES)
